@@ -21,7 +21,7 @@ const handleLogin = async (req, res) => {
         const accessToken = jwt.sign(
             { "username": foundUser.username },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '30s' }
+            { expiresIn: '15m' }
         )
         const refreshToken = jwt.sign(
             { "username": foundUser.username },
@@ -36,11 +36,11 @@ const handleLogin = async (req, res) => {
             path.join(__dirname, '..', 'model', 'users.json'),
             JSON.stringify(usersDB.users)
         );
-        // res.json({ 'success': `User ${user} is logged in!` });
+        
         res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24*60*60*1000 });
         //res.json({ accessToken });
         res.cookie('jwt_at', accessToken, { httpOnly: true, maxAge: 15*60*1000 });
-
+        res.json({ 'success': `User ${user} is logged in!` });
     } else {
         res.sendStatus(401);
     }

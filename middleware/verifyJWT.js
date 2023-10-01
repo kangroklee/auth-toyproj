@@ -10,7 +10,7 @@ const verifyJWT = (req, res, next) => {
     */
     const cookies = req.cookies;
     if(!cookies?.jwt_at) return res.sendStatus(401);//this is optional chaining. if cookies exist, we are also looking if jwt_at exists
-    console.log(cookies.jwt_at);
+    console.log("jwt_at:", cookies.jwt_at);
     const token = cookies.jwt_at;
     jwt.verify(
         token,
