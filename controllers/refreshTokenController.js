@@ -25,7 +25,8 @@ const handleRefreshToken = (req, res) => {
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '30s' }
             );
-            res.json({ accessToken });
+            //res.json({ accessToken });
+            res.cookie('jwt_at', accessToken, { httpOnly: true, maxAge: 15*60*1000 });
         }
     );
 }
