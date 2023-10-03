@@ -21,6 +21,7 @@ app.use('/logout', require('./routes/api/logout'));
 
 //everything after this line will require verifyJWT middleware!!!
 app.use(verifyJWT);
+app.use('/username', require('./routes/api/username'));
 app.get('/protected', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'protectedpage.html'));
 })

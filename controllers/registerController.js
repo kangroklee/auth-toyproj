@@ -8,10 +8,10 @@ const bcrypt = require('bcrypt');
 
 const handleNewUser = async (req, res) => {
     const { user, pwd } = req.body; //destructuring assignment
-    if (!user || !pwd) return res.status(400).json({ 'message': 'Username and password are required.' });
+    if (!user || !pwd) return res.status(400).json({ msg: 'Username and password are required.' });
     // check for duplicate usernames in the db
     const duplicate = usersDB.users.find(person => person.username === user);
-    if (duplicate) return res.sendStatus(409); //Conflict 
+    if (duplicate) return res.status(409).json({ msg: 'Username already exists' }); //Conflict 
     try {
         //encrypt the password
         const hashedPwd = await bcrypt.hash(pwd, 10); //with 10 salt rounds
@@ -23,7 +23,7 @@ const handleNewUser = async (req, res) => {
             JSON.stringify(usersDB.users)
         );
         console.log(usersDB.users);
-        res.status(201).json({ 'success': `New user ${user} created!` });
+        res.status(201).json({ msg : `New user ${user} created!` });
     } catch (err) {
         res.status(500).json({ 'message': err.message });
     }
